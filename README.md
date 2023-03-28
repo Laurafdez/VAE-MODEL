@@ -16,7 +16,7 @@ are going to show all the steps we have made to achive that goal.
 
 ## Download the dataset
 
-1. Firstly, we download the CSV from [VGGSOUND](https://console.cloud.google.com/compute](https://www.robots.ox.ac.uk/~vgg/data/vggsound/) 
+1. Firstly, we download the CSV from [VGGSOUND](https://www.robots.ox.ac.uk/~vgg/data/vggsound/) 
 As you can see in the CSV is saved all the identifiers of the Youtube video we want to download, as we want only to download videos that have any sound of animal,
 we have creat a script that search for this videos and download for internet. To execute that script yo should do:
 
@@ -25,7 +25,7 @@ we have creat a script that search for this videos and download for internet. To
      ```
      >__Note__ It is important that you change the path where you are going to save of the download videos. Our first aprouch is to download videos from birds, cat and dogs.
 
-2. Secondly, we download more animal sound from [Freesound](https://freesound.org/) and some image from Imagenet(https://www.image-net.org/). Our goal is to create a VAE that is able to generate an image from a sound and that 
+2. Secondly, we download more animal sound from [Freesound](https://freesound.org/) and some image from [Imagenet](https://www.image-net.org/). Our goal is to create a VAE that is able to generate an image from a sound and that 
 why we download videos to have all this data.
 
 ## Preprocessing data
