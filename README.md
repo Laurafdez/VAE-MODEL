@@ -64,8 +64,8 @@ Firstly, we have been working on generating our own VAE. To do that, we needed t
 
 ## References
 
-Kingma, D. P., & Welling, M. (2013). Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114.
-Doersch, C. (2016). Tutorial on Variational Autoencoders. arXiv preprint arXiv:1606.05908.
-Kulkarni, T. D., Whitney, W. F., Kohli, P., & Tenenbaum, J. B. (2015). Deep convolutional inverse graphics network. In Advances in neural information processing systems (pp. 2539-2547).
-Gregor, K., Danihelka, I., Graves, A., Rezende, D., & Wierstra, D. (2015). DRAW: A recurrent neural network for image generation. arXiv preprint arXiv:1502.04623.
-Bowman, S. R., Vilnis, L., Vinyals, O., Dai, A. M., Jozefowicz, R., & Bengio, S. (2016). Generating sentences from a continuous space. arXiv preprint arXiv:1511.06349.
+1. Kingma, D. P., & Welling, M. (2013). Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114.
+2. Doersch, C. (2016). Tutorial on Variational Autoencoders. arXiv preprint arXiv:1606.05908.
+3. Kulkarni, T. D., Whitney, W. F., Kohli, P., & Tenenbaum, J. B. (2015). Deep convolutional inverse graphics network. In Advances in neural information processing systems (pp. 2539-2547).
+4. Gregor, K., Danihelka, I., Graves, A., Rezende, D., & Wierstra, D. (2015). DRAW: A recurrent neural network for image generation. arXiv preprint arXiv:1502.04623.
+5. Bowman, S. R., Vilnis, L., Vinyals, O., Dai, A. M., Jozefowicz, R., & Bengio, S. (2016). Generating sentences from a continuous space. arXiv preprint arXiv:1511.06349.
