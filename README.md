@@ -55,7 +55,7 @@ Firstly, we have been working on generating our own VAE. To do that, we first pr
      
  ## Generation of data
  
-- Once we have all our data preprocessed, we introduce the path to our data into our VAE. Our VAE starts to train in each epoch, and when the process ends, you will get a generated audio from the latent space. 
+- Once  we have preprocessed all our data, we input the data path into our VAE. The VAE begins training in each epoch, and when the process ends, you will get a generated audio from the latent space. 
      ```console
      python VAE.py
      ``` 
