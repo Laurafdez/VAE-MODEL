@@ -7,28 +7,28 @@ Laura Fernández Galindo & María Sánchez Ruiz
 
 # Introduction
 
-An important deep generative model that learns from untargeted data is the Variational Autoencoder (VAE). This model is formed by two neural networks: the encoder and the decoder. The flow that this model follows is that input data is mapped to the latent space by the encoder, and the decoder network maps the latent space back to the input data.
+An important deep learning generative model that learns from untargeted data is the Variational Autoencoder (VAE). This model is formed by two neural networks: the encoder and the decoder. The flow that this model follows is that input data is mapped to the latent space by the encoder, and the decoder network maps the latent space back to the input data.
 
 The particularity of this model is that the encoder network learns to produce a distribution over the latent space rather than a single point. This distribution usually is a Gaussian distribution with a mean and a standard deviation.
 
 The model learns how to maximize the probability of the input data given the distribution over the latent space. This is achieved by minimizing a loss function that consists of two parts: the reconstruction loss and the regularization loss.
 
-The VAE has many applications in a wide range of fields, such as images, texts, and audio. One of the main advantages of the VAE is that it allows for the generation of new data points that are similar to the training data.
+The VAE has numerous applications in various fields, including image, text, and audio. One of the main benefits of the VAE is its ability to generate new data points that resemble the training data.
 
 ## Our generative model
 
-Firstly, we have been working on generating our own VAE. To do that, we needed to create our own dataset, preprocess it, and then train the VAE. In this repository, we will show all the steps we took to achieve that goal.
+Firstly, we have been working on generating our own VAE. To do that, we first prepared our own dataset, preprocessed it, and then trained the VAE. In this repository, we will show all the steps we took to achieve that goal.
 
 ## Download the dataset
 
-1. Firstly, we download the CSV from [VGGSOUND](https://www.robots.ox.ac.uk/~vgg/data/vggsound/) As you can see in the CSV, all the identifiers of the YouTube videos we want to download are saved. As we only want to download videos that have animal sounds, we created a script that searches for these videos and downloads them from the internet. To execute that script, you should do:
+1. Firstly, we download the CSV file from [VGGSOUND](https://www.robots.ox.ac.uk/~vgg/data/vggsound/). As you can see in the CSV, all the identifiers of the YouTube videos we want to download are saved. As we only want to download videos with animal sounds, we created a script that searches for these videos and downloads them from YouTube. To execute that script, you should do:
 
      ```console
      python download_video.py
      ```
      >__Note__ It is important that you change the path where you are going to save the downloaded videos. Our first approach is to download videos of birds, cats, and dogs.
 
-2. Secondly, we downloaded more animal sounds from [Freesound](https://freesound.org/) and some images from [Imagenet](https://www.image-net.org/). Our goal is to create a VAE that can generate an image from a sound. That's why we downloaded videos to have all this data.
+2. Secondly, we downloaded more animal sounds from [Freesound](https://freesound.org/) dataset, and some images from [Imagenet](https://www.image-net.org/). Our goal is to create a VAE that can generate an image from a sound. That is why we downloaded videos to have all this data.
 
 ## Preprocessing data
 
@@ -38,7 +38,7 @@ Firstly, we have been working on generating our own VAE. To do that, we needed t
      ```    
       >__Note__ It is important that you change the path where you are going to save of the new audio.
       
-2. The next step is to extract the segments of our audios that have the highest likelihood of being an animal sound. By doing this, when we introduce all our audios to our VAE, they will have the segments with the least noise possible. Additionally, we want to extract the image of the video, so in this script, we take the image of the frame with the highest probability of being an animal. To do this, you should run:
+2. The next step is to extract the segments of our audios that have the highest likelihood of being an animal sound. By doing this, we seek to reduce the noise in our VAE when we introduce all our segmented audios. Additionally, we want to extract the image of the video, so in this script, we take the image of the frame with the highest probability of being an animal. To do this, you should run:
 
      ```console
      python animal_sound_detector.py
@@ -46,7 +46,7 @@ Firstly, we have been working on generating our own VAE. To do that, we needed t
 
      >__Note__ It is important that you change the path where you are going to save the new audio.
      
-3. Lastly, we take a segment of 3 seconds from the new animal audio, and we convert all of that data in spectograms. 
+3. Lastly, we take a 3-second segment of the new animal's audio and converted all that data into spectrograms. 
      ```console
      python Preprocess_audio_VAE.py
      ``` 
@@ -55,7 +55,7 @@ Firstly, we have been working on generating our own VAE. To do that, we needed t
      
  ## Generation of data
  
-- Now we have all our data preprocessed, we introduce our path into our VAE. Our VAE starts to train in each epoch, and when the process ends, you can see a generative audio from the latent space. 
+- Once we have all our data preprocessed, we introduce the path to our data into our VAE. Our VAE starts to train in each epoch, and when the process ends, you will get a generated audio from the latent space. 
      ```console
      python VAE.py
      ``` 
