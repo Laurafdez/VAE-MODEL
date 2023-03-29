@@ -7,9 +7,9 @@ Laura Fernández Galindo & María Sánchez Ruiz
 
 # Introduction
 
-An important deep learning generative model that learns from untargeted data is the Variational Autoencoder (VAE). This model is formed by two neural networks: the encoder and the decoder. The flow that this model follows is that input data is mapped to the latent space by the encoder, and the decoder network maps the latent space back to the input data.
+The Variational Autoencoder (VAE) is an important deep learning generative model that learns from untargeted data. This model consists of two neural networks: the encoder and the decoder. The flow that this model follows is that input data is mapped to the latent space by the encoder, and the decoder network maps the latent space back to the input data.
 
-The particularity of this model is that the encoder network learns to produce a distribution over the latent space rather than a single point. This distribution usually is a Gaussian distribution with a mean and a standard deviation.
+The particularity of this model is that the encoder network learns to produce a distribution over the latent space rather than a single point. This distribution is usually a Gaussian distribution with a mean and a standard deviation.
 
 The model learns how to maximize the probability of the input data given the distribution over the latent space. This is achieved by minimizing a loss function that consists of two parts: the reconstruction loss and the regularization loss.
 
