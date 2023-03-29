@@ -1,4 +1,4 @@
-
+#Este VAE está inspirado en el el VAE de Mateo
 import os
 import librosa
 import librosa.display
@@ -134,7 +134,7 @@ torch.manual_seed(0)
 # Set hyperparameters
 lr = 1e-4
 beta = 0.00001
-num_epochs = 3000
+num_epochs = 5000
 latent_dim=20
 # Set up model and optimizer
 vae = VariationalAutoencoder(latent_dim)
@@ -176,6 +176,7 @@ def train_epoch(vae, device, dataloader, optimizer):
         x_hat = vae(x)
 
             
+
 
         # Evaluate loss
         reconstruction_error = ((torch.abs(x - x_hat)) ** 2).sum()
@@ -233,24 +234,32 @@ def train(num_epochs, vae, device, train_loader, optimizer, valid_loader):
 # Sample and decode using spectrogram
 def sample_and_decode_vae(vae, latent_dim, n_samples=1, sr=48_000, hop_length=512, n_fft=1024):
     # load the pre-trained weights into the model
-    #vae.load_state_dict(torch.load("./model_checkpoint_best_val_loss.pt"))
+    vae.load_state_dict(torch.load("./model_checkpoint_best_val_loss.pt"))
     vae.load_state_dict(torch.load(model_dog))
 
     # set the model to evaluation mode
     vae.eval()
     # Sample noise vectors from a normal distribution
-    spectogram_path = "/media/byo/Data/MariaTFM/audioanimales/spectros_newaudios/dog_1_cropped.npy"
-    noise = np.random.normal(size=(n_samples, latent_dim)).astype('float32')
-    spec = np.load(spectogram_path)[np.newaxis, ...]
-    spec = spec[:, :-1, :-1] #Añadimos unadimensión más
+    spectogram_path = "/media/byo/Data/MariaTFM/VIDEOANIMALES/audio"
+    
+     # Set up train and validation data loaders
+    dog = []
+    for dirpath, dirname, filenames in os.walk(spectogram_path):
+        for f in filenames:
+            dog.append(np.load(os.path.join(dirpath, f), allow_pickle=True))
 
-    spec = np.array(spec)
-    spectogram_tensor = torch.from_numpy(spec)
 
-    spectogram_tensor = spectogram_tensor.unsqueeze(0)
-
-    # Use the decoder to generate audio signals from the noise vectors
-    decoded = vae(spectogram_tensor.to(device))
+    #dogs = [np.nan_to_num(dog, nan=0) for dog in dogs]
+    input = dog
+    #print(inputs[0].shape)
+    input = [i[np.newaxis, :512, :64].astype('float32') for i in input]
+    #print(inputs[0].shape)
+    for i in input:
+        print(i)
+   
+    input = np.array(input)
+    input = torch.from_numpy(input)
+    decoded = vae(input)
     decoded = decoded.cpu()
 
 
@@ -261,11 +270,15 @@ def sample_and_decode_vae(vae, latent_dim, n_samples=1, sr=48_000, hop_length=51
     
     # Reshape the data to be a spectrogram
     decoded = decoded[0, 0, ...]
-    decoded = librosa.db_to_amplitude(decoded)
-
+    
+    librosa.display.specshow(decoded, sr=sr, hop_length=512, x_axis='time', y_axis='linear')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Log-scaled Spectrogram')
+    plt.show()
 
 
     # Use Griffin-Lim algorithm to reconstruct the audio signal from the magnitude spectrogram
+    
     audio = []
     for i in range(n_samples):
         audio_signal = librosa.griffinlim(decoded, hop_length=hop_length)
@@ -278,7 +291,11 @@ def sample_and_decode_vae(vae, latent_dim, n_samples=1, sr=48_000, hop_length=51
 def sample_and_decode_vae2(vae, latent_dim, n_samples=1, sr=48_000, hop_length=512, n_fft=1024):
     # Sample noise vectors from a normal distribution
     noise = np.random.normal(size=(n_samples, latent_dim)).astype('float32')
+    
+   # latent = torch.randn(128, 4, device=device)
 
+    # reconstruct images from the latent vectors
+    #decoded = vae(latent)
     # Use the decoder to generate audio signals from the noise vectors
     decoded = vae.decoder(torch.from_numpy(noise).to(device))
     decoded = decoded.cpu()
@@ -289,8 +306,14 @@ def sample_and_decode_vae2(vae, latent_dim, n_samples=1, sr=48_000, hop_length=5
     
     # Reshape the data to be a spectrogram
     decoded = decoded[0, 0, ...]
+    
+    librosa.display.specshow(decoded, sr=sr, hop_length=512, x_axis='time', y_axis='linear')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Log-scaled Spectrogram')
+    plt.show()
 
     # Use Griffin-Lim algorithm to reconstruct the audio signal from the magnitude spectrogram
+    
     audio = []
     for i in range(n_samples):
         audio_signal = librosa.griffinlim(decoded, hop_length=hop_length)
@@ -309,12 +332,19 @@ def denormalize(signal, max_val, min_val):
 #Para coger del espacio latente:
 
 if __name__ == "__main__":
-    train(num_epochs, vae, device, train_loader, optimizer, valid_loader)
+    #train(num_epochs, vae, device, train_loader, optimizer, valid_loader)
 
     # decode an audio using encoder-decoder
     sr=48000
-    #audio=sample_and_decode_vae2(vae, latent_dim, n_samples=1, sr=sr, hop_length=512, n_fft=1024)
+    audio=sample_and_decode_vae2(vae, latent_dim, n_samples=1, sr=sr, hop_length=512, n_fft=1024)
 
-   # for i, audio_signal in enumerate(audio):
-       # filename = f"dog_FreeSound_cropped_reconstr_{i}.wav"
-        # sf.write(filename, audio_signal, sr, format='WAV', subtype='PCM_24')
+    for i, audio_signal in enumerate(audio):
+       filename = f"dog{i}.wav"
+       sf.write(filename, audio_signal, sr, format='WAV', subtype='PCM_24')
+    
+    sr=48000
+    audio1=sample_and_decode_vae(vae, latent_dim, n_samples=1, sr=sr, hop_length=512, n_fft=1024)
+
+    for i, audio_signal in enumerate(audio1):
+       filename = f"animal_{i}.wav"
+       sf.write(filename, audio_signal, sr, format='WAV', subtype='PCM_24')
