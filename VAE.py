@@ -329,7 +329,7 @@ def normalize(signal):
 def denormalize(signal, max_val, min_val):
     return signal * (max_val - min_val) + min_val
 
-#Para coger del espacio latente:
+# To sample the latent space:
 
 if __name__ == "__main__":
     #train(num_epochs, vae, device, train_loader, optimizer, valid_loader)
